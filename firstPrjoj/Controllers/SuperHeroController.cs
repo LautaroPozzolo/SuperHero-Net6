@@ -1,6 +1,6 @@
-﻿using firstPrjoj.Data;
-using firstPrjoj.Entities;
+﻿using firstPrjoj.Entities;
 using Microsoft.AspNetCore.Mvc;
+using SuperHeroAPI.Services.Contracts;
 
 namespace firstPrjoj.Controllers
 {
@@ -8,69 +8,44 @@ namespace firstPrjoj.Controllers
     [ApiController]
     public class SuperHeroController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ISuperHeroServices _service;
 
-        public SuperHeroController(DataContext context)
+        public SuperHeroController(ISuperHeroServices service)
         {
-            _context= context;
+            _service = service;
         }
 
         [HttpGet]
+        [Route ("/getHeros")]
         public ActionResult<List<SuperHero>> GetHeros()
         {
-            return Ok(_context.superHeroes.ToList());
+            return Ok(_service.GetAll());
         }
 
         [HttpGet("{id}")]
         public ActionResult<SuperHero> GetHeroById(int id)
         {
-            var hero = _context.superHeroes.Find(id);
-
-            if (hero == null)
-                return BadRequest("Hero not found");
-
-            return Ok(hero);
+            return Ok(_service.SuperHeroGetById(id));
         }
 
         [HttpPost]
         public ActionResult<List<SuperHero>> AddHero(SuperHero hero)
         {
-            _context.superHeroes.Add(hero);
-            _context.SaveChanges();
-
-            return Ok(_context.superHeroes.ToList());
+            return Ok(_service.Create(hero));
         }
 
         [HttpPut]
         public ActionResult<List<SuperHero>> UpdateHero(SuperHero request)
         {
-            var hero = _context.superHeroes.Find(request.Id);
-
-            if (hero == null)
-                return BadRequest("Hero not found");
-
-            hero.Name = request.Name;
-            hero.LastName = request.LastName;
-            hero.SuperPower = request.SuperPower;
-            hero.Age= request.Age;
-
-            _context.SaveChanges();
-
-            return Ok(_context.superHeroes.ToList());
+            return Ok(_service.Update(request));
         }
 
         [HttpDelete("{id}")]
         public ActionResult<List<SuperHero>> DeleteHero(int id)
         {
-            var hero = _context.superHeroes.Find(id);
+            _service.Delete(id);
 
-            if (hero == null)
-                return BadRequest("Hero not found");
-
-            _context.superHeroes.Remove(hero);
-            _context.SaveChanges();
-
-            return Ok(_context.superHeroes.ToList());
+            return Ok($"SuperHero {id} was deleted");
         }
     }
 }
