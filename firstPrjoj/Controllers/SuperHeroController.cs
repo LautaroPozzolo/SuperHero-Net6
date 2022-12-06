@@ -25,7 +25,16 @@ namespace firstPrjoj.Controllers
         [HttpGet("{id}")]
         public ActionResult<SuperHero> GetHeroById(int id)
         {
-            return Ok(_service.SuperHeroGetById(id));
+            var hero = _service.SuperHeroGetById(id);
+
+            if (hero != null)
+            {
+                return Ok(hero);
+            }
+            else
+            {
+                return NotFound($"The super hero {id} does not exist");
+            }
         }
 
         [HttpPost]
@@ -43,9 +52,17 @@ namespace firstPrjoj.Controllers
         [HttpDelete("{id}")]
         public ActionResult<List<SuperHero>> DeleteHero(int id)
         {
-            _service.Delete(id);
+            var heroToDelete = _service.SuperHeroGetById(id);
 
-            return Ok($"SuperHero {id} was deleted");
+            if (heroToDelete != null)
+            {
+                _service.Delete(id);
+                return Ok($"SuperHero {id} was deleted");
+            }
+            else
+            {
+                return NotFound($"The super hero {id} does not exist");
+            }
         }
     }
 }

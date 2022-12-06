@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using firstPrjoj.Data;
 
@@ -10,9 +11,10 @@ using firstPrjoj.Data;
 namespace SuperHeroAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221206115810_addSuperHeroIdOnSuperPowerModel")]
+    partial class addSuperHeroIdOnSuperPowerModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,11 +79,13 @@ namespace SuperHeroAPI.Migrations
 
             modelBuilder.Entity("SuperHeroAPI.Model.SuperPower", b =>
                 {
-                    b.HasOne("firstPrjoj.Entities.SuperHero", null)
+                    b.HasOne("firstPrjoj.Entities.SuperHero", "SuperHero")
                         .WithMany("SuperPowers")
                         .HasForeignKey("SuperHeroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("SuperHero");
                 });
 
             modelBuilder.Entity("firstPrjoj.Entities.SuperHero", b =>

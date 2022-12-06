@@ -1,6 +1,7 @@
 using firstPrjoj.Data;
 using Microsoft.EntityFrameworkCore;
 using SuperHeroAPI.Repository;
+using SuperHeroAPI.Repository.Interfaces;
 using SuperHeroAPI.Services.Contracts;
 using SuperHeroAPI.Services.Implementations;
 
@@ -18,8 +19,13 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Add SuperHero services
 builder.Services.AddScoped<ISuperHeroRepository, SuperHeroRepository>();
 builder.Services.AddScoped<ISuperHeroServices, SuperHeroService>();
+
+// Add SuperPower services
+builder.Services.AddScoped<ISuperPowerRepository, SuperPowerRepository>();
+builder.Services.AddScoped<ISuperPowerService, SuperPowerSrvice>();
 
 var app = builder.Build();
 

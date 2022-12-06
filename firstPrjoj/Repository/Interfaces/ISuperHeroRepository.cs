@@ -1,6 +1,6 @@
 ﻿using firstPrjoj.Entities;
 
-namespace SuperHeroAPI.Repository
+namespace SuperHeroAPI.Repository.Interfaces
 {
     public interface ISuperHeroRepository
     {

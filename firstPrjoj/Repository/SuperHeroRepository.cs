@@ -1,6 +1,7 @@
 ﻿using firstPrjoj.Data;
 using firstPrjoj.Entities;
 using Microsoft.EntityFrameworkCore;
+using SuperHeroAPI.Repository.Interfaces;
 
 namespace SuperHeroAPI.Repository
 {
@@ -42,8 +43,11 @@ namespace SuperHeroAPI.Repository
         {
             var hero = _context.superHeroes.Find(id);
 
-            _context.superHeroes.Remove(hero);
-            _context.SaveChanges();
+            if (hero != null) 
+            {
+                _context.superHeroes.Remove(hero);
+                _context.SaveChanges();
+            }            
         }
     }
 }

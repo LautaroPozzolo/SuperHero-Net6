@@ -1,7 +1,7 @@
 ﻿using firstPrjoj.Data;
 using firstPrjoj.Entities;
 using Microsoft.EntityFrameworkCore;
-using SuperHeroAPI.Repository;
+using SuperHeroAPI.Repository.Interfaces;
 using SuperHeroAPI.Services.Contracts;
 
 namespace SuperHeroAPI.Services.Implementations
